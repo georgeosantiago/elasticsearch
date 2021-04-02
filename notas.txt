@@ -1,0 +1,187 @@
+
+###########################################################################################
+
+Crear directorio de datos:
+create_data.sh
+
+Arrancar la base de datos:
+docker-compose up  elasticsearch
+
+Crear password con:
+create_access.sh  (genera passwords.txt)
+# ./bin/elasticsearch-setup-passwords auto
+
+Configurar:
+kibana.yml
+
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "1iPczpTQESSBEQIn7fPx"
+
+Arrancar Kibana:
+docker-compose up -d
+
+# Loguearse en Kibana con
+PASSWORD elastic = S8WMRDCjoxA8XIjRZR7H
+
+Mas info:
+# docker-compose
+# https://github.com/deviantony/docker-elk
+
+###########################################################################################
+
+  if [MODALIDAD] == "CPP" {
+	mutate {
+		add_field => {
+			"CELULAR" => "true"
+		}
+	}
+  } else {
+ 	mutate {
+		add_field => {
+			"CELULAR" => "false"
+		}
+	} 
+  }
+
+
+###########################################################################################
+# querys
+
+GET _cat/indices/kibana_sample_data_ecommerce/?v=true
+GET _cat/indices/kibana_sample_data_ecommerce/?v=true&format=json
+
+GET _cat/indices?v&pretty
+
+GET /_cat/master/?v=true
+
+GET /_cat/nodeattrs?v=true
+
+GET /_cat/nodes?v=true
+
+GET /_cat/pending_tasks?v=true
+
+GET /_cat/repositories?v=true
+
+GET /_cat/segments?v=true
+
+GET /_cat/shards/
+
+GET /_cat/shards/kibana_sample_data_*
+
+GET /kibana_sample_data_ecommerce/_mapping/
+GET /kibana_sample_data_ecommerce/_mapping/field/customer_id/
+
+GET /kibana_sample_data_ecommerce/_search?q=ZO0549605496
+GET /kibana_sample_data_ecommerce/_search
+{
+  "query": {
+    "query_string": {
+      "query": "19400",
+      "default_field": "products.product_id"
+    }
+  }
+}
+GET /kibana_sample_data_ecommerce/_search
+{
+  "query" : {
+    "query_string" : {
+      "fields"  : ["content","products.product_id"],
+      "query" : "19400"
+      
+    }
+  }
+}
+
+POST /_security/user/admin
+{
+  "password" : "2323sensey",
+  "roles" : [ "kibana_admin" ]
+}
+POST /_security/user/logstash_internal
+{
+  "password" : "2323sensey",
+  "roles" : [ "logstash_writer"],
+  "full_name" : "Internal Logstash User"
+}
+POST /_security/role/logstash_reader
+{
+  "cluster": ["manage_logstash_pipelines"]
+}
+POST /_security/user/logstash_user
+{
+  "password" : "2323sensey",
+  "roles" : [ "logstash_reader", "logstash_admin"], 
+  "full_name" : "Kibana User for Logstash"
+}
+
+POST /misclientes/_doc
+{
+  "nombre":"Pedro",
+  "telefono":"55552222",
+  "localidad":"Capital"
+}
+GET /misclientes/_doc/d5FrT3cBWchBklI7a-1F
+GET /misclientes/_search?q=Juan
+GET /misclientes/_search?q=*
+GET /misclientes/_search
+{
+  "query" : {
+    "query_string" : {
+      "fields"  : ["telefono"],
+      "query" : "55552222"
+    }
+  }
+}
+
+GET /misclientes/_search
+{
+  "query": {
+    "query_string": {
+      "query": "telefono:55552222"
+    }
+  }
+}
+
+POST /misclientes/_doc/d5FrT3cBWchBklI7a-1F
+{
+  "nombre":"Pedro",
+  "telefono":"88882222",
+  "localidad":"Capital"
+}
+PUT /misclientes/_doc/d5FrT3cBWchBklI7a-1F
+{
+  "nombre":"Pedro",
+  "telefono":"88882222",
+  "localidad":"Capital"
+}
+GET /misclientes/_doc/d5FrT3cBWchBklI7a-1F
+
+DELETE /misclientes/_doc/d5FrT3cBWchBklI7a-1F
+
+GET /misclientes/_search
+{
+  "query": {
+    "simple_query_string" : {
+      "query":    "Juan | Capital",
+      "fields": [ "nombre", "localidad" ] 
+    }
+  }
+}
+
+POST /misamigos/_bulk
+{"index":{}}
+{"nombre":"Juan","apellido":"Ramirez"}
+{"index":{}}
+{"nombre":"Pedro","apellido":"Fernandez"}
+
+POST _bulk
+{ "index" : { "_index":"misamigos"} }
+{"nombre":"Pedro","apellido":"Fernandez"}
+
+GET /misamigos/_search
+
+DELETE /misamigos/
+
+GET /mi_numeraciongeografica/_search
+DELETE /mi_numeraciongeografica/
+

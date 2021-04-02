@@ -1,0 +1,15 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+
+node.name: es01
+discovery.type: single-node
+bootstrap.memory_lock: true
+
+# auth
+xpack.license.self_generated.type: trial
+xpack.security.enabled: true
+xpack.security.authc.api_key.enabled: true
+
+# ./bin/elasticsearch-setup-passwords auto
+
+

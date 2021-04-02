@@ -1,0 +1,32 @@
+input {
+  file {
+    codec => plain { charset=>"ISO-8859-1" }
+    path => "/csv/numeraciongeografica.csv"
+    start_position => "beginning"
+  }
+}
+
+filter {
+  csv {
+    separator => ";"		
+	columns => ["OPERADOR","SERVICIO","MODALIDAD","LOCALIDAD","INDICATIVO","BLOQUE","RESOLUCION","FECHA"]
+  }
+  mutate {
+	add_field => {
+		"PIPU" => "%{column5},%{column5}"
+	}
+  }
+}
+
+output {
+
+  stdout {}
+  
+  elasticsearch {
+    index => "mi_numeraciongeografica"
+    
+	hosts => "elasticsearch:9200"
+    user => "elastic"
+    password => "FoUOMkFXDQAKkIew8jgo"
+  }
+}
