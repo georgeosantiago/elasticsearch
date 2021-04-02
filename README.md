@@ -1,6 +1,6 @@
 # Docker Elasticsearch Kibana y Logstash
 ### docker-compose.yml
-'''
+```
 version: '2'
 
 services:
@@ -62,4 +62,4 @@ networks:
 volumes:
   mariadb_data:
     driver: local
-'''
+```
